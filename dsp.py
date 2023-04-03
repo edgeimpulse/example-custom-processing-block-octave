@@ -1,4 +1,10 @@
 import numpy as np
+import oct2py
+
+# Add the functions in our script to Octave's namespace
+oc = oct2py.Oct2Py()
+oc.eval('rms_example')
+
 
 def generate_features(implementation_version, draw_graphs, raw_data, axes, sampling_freq, scale_axes):
     # features is a 1D array, reshape so we have a matrix
@@ -9,19 +15,15 @@ def generate_features(implementation_version, draw_graphs, raw_data, axes, sampl
 
     # split out the data from all axes
     for ax in range(0, len(axes)):
-        X = []
-        for ix in range(0, raw_data.shape[0]):
-            X.append(float(raw_data[ix][ax]))
+        fx = raw_data[:, ax]
 
-        # X now contains only the current axis
-        fx = np.array(X)
+        # potentially scale data from sensor
+        fx = np.array(fx, dtype='f') * scale_axes
 
-        # process the signal here
-        fx = fx * scale_axes
+        fx = oc.rms_test(fx)
 
         # we need to return a 1D array again, so flatten here again
-        for f in fx:
-            features.append(f)
+        features.append(fx)
 
     return {
         'features': features,

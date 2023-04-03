@@ -6,8 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 WORKDIR /app
 
 # python3 and all dependencies for scipy
-RUN apt update && apt install -y python3 python3-pip libatlas-base-dev gfortran-9 libfreetype6-dev && \
-    ln -s $(which gfortran-9) /usr/bin/gfortran
+RUN apt update && apt install -y liboctave-dev octave octave-control python3 python3-pip libatlas-base-dev libfreetype6-dev
 
 # Update pip
 RUN pip3 install -U pip==22.0.3
@@ -21,6 +20,9 @@ RUN pip3 --no-cache-dir install -r requirements-blocks.txt
 
 COPY third_party /third_party
 COPY . ./
+
+# Install Octave dependencies
+RUN octave setup.m
 
 EXPOSE 4446
 
