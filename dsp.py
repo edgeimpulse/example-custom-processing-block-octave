@@ -3,7 +3,6 @@ import oct2py
 
 # Add the functions in our script to Octave's namespace
 oc = oct2py.Oct2Py()
-oc.eval('rms_example')
 
 
 def generate_features(implementation_version, draw_graphs, raw_data, axes, sampling_freq, scale_axes):

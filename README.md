@@ -19,7 +19,7 @@ RUN octave setup.m
 Do this outside of the generate_features function, so that your Octave instance will persist across samples
 ```
 oc = oct2py.Oct2Py()
-oc.eval('octave_file_name')
+
 ```
 - Invoke functions like so: result = oc.my_func([1,2,3])
 - Numpy arrays are also valid input
